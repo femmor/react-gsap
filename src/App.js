@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect } from "react"
 import { gsap } from "gsap"
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from "./images/gsap.svg"
 import reactLogo from "./images/react-logo.svg"
+
+gsap.registerPlugin(ScrollTrigger)
 
 const sections = [
   {
@@ -53,6 +56,26 @@ function App() {
         ease: 'none', 
         delay: 1
       })
+
+      // Loop over the revealRefs.current
+    revealRefs.current.forEach((el, index) => {
+
+      gsap.fromTo(
+        el, 
+        {autoAlpha: 0}, 
+        {
+          duration: 1, 
+          autoAlpha: 1, 
+          ease: 'none', 
+          scrollTrigger: {
+            id: `section-${index+1}`,
+            trigger: el,
+            start: 'top center+=100',
+            toggleActions: 'play none none reverse',
+            markers: true
+        }})
+    })
+
   }, [])
 
 
@@ -61,7 +84,6 @@ function App() {
     if (el && !revealRefs.current.includes(el)) {
       revealRefs.current.push(el)
     }
-    console.log(revealRefs.current)
   }
 
   return (
