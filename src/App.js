@@ -3,10 +3,31 @@ import { gsap } from "gsap"
 import logo from "./images/gsap.svg"
 import reactLogo from "./images/react-logo.svg"
 
+const sections = [
+  {
+    title: "Title 1",
+    subTitle: "Subtitle 1"
+  },
+  {
+    title: "Title 2",
+    subTitle: "Subtitle 2"
+  },
+  {
+    title: "Title 3",
+    subTitle: "Subtitle 3"
+  },
+  {
+    title: "Title 4",
+    subTitle: "Subtitle 4"
+  }
+]
+
 function App() {
   const [background, setBackground] = useState('#5a7d95');
 
   const headerRef = useRef(null)
+  const revealRefs = useRef([])
+  revealRefs.current = []
 
   const toggleBackground = () => {
     const color = background !== '#5a7d95' ? '#5a7d95' : '#1b4943'
@@ -34,6 +55,15 @@ function App() {
       })
   }, [])
 
+
+  // Add to Refs
+  const addToRefs = (el) => {
+    if (el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el)
+    }
+    console.log(revealRefs.current)
+  }
+
   return (
     <div className="App">
       <header className="App-header" ref={headerRef}>
@@ -47,10 +77,14 @@ function App() {
         </div>
       </header>
       <main className="App-main"> 
-        <div className="App-section">
-          <h1>Lorem ipsum dolor sit.</h1>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis, porro?</p>
-        </div>
+        {
+          sections.map(({title, subTitle}) => (
+            <div className="App-section" key={title} ref={addToRefs}>
+              <h2>{title}</h2>
+              <h2>{subTitle}</h2>
+            </div>
+          ))
+        }
       </main>
     </div>
   );
